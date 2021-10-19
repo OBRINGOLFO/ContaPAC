@@ -1,0 +1,67 @@
+<?php
+/**
+ * @autor Rixio Danilo Iguarán Chourio.
+ * @cédula-profesional 12196442
+ * @correo-eletrónico atencion.clientes@obringolfo.com
+ * @denominacion OBRAS INFORMÁTICAS DEL GOLFO
+ * @empresa OBRINGOLFO S.A.S. DE C.V.
+ * @proyecto  WINDOWS PAQUETE ADMINISTRATIVO CONTABLE (WinPAC).
+ * @copyright 2021
+ */
+	
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- [ META-ETIQUETAS ] -->
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="title" content="WinPAC &#174; ">
+    <meta name="ROBOTS" content="INDEX,FOLLOW">
+    <meta http-equiv="Content-Language" content="es-mx">
+    <meta name="description" content="Windows Sistema Administrativo Contable" />	
+    <meta name="abstract" content="Windows Sistema Administrativo Contable">
+    <meta name="keywords" content="presupuestos, administración, gastos, ingresos, conciliación, facturación, bancos, nominas">
+    <meta name="author" content="[12196442] Rixio Danilo Iguaran Chourio">
+    <meta name="copyright" content="OBRINGOLFO S.A.S. DE C.V.">
+    <meta name="rating" content="General">
+    <meta name="creation_Date" content="01/04/2021">
+    <meta name="revisit-after" content="1 days">
+    <meta name="doc-rights" content="Copywritten work">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>WinPAC &#174; </title>
+  	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+   	<link rel="icon" type="image/png" href="/favicon-large.png">
+
+    <!-- [ HOJAS DE ESTILO ] -->
+    <link href="<?php echo PATH_CSS; ?>jquery-ui-1.8.6.custom.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo PATH_CSS; ?>bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <!-- [ <link href="<?php echo PATH_CSS; ?>WinPAC_aero.css" rel="stylesheet" type="text/css"/> ] -->
+    <link href="<?php echo PATH_CSS; ?>WinPAC_herramientas.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo PATH_CSS; ?>WinPAC_iface.css" rel="stylesheet" type="text/css"/>
+
+    <!-- [ JAVASCRIPTS ] -->
+    <script type="text/javascript" src="<?php echo PATH_JS; ?>jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="<?php echo PATH_JS; ?>jquery.validate.min.js"></script>
+    <script type="text/javascript" src="<?php echo PATH_JS; ?>jquery-ui-1.8.1.custom.min.js"></script>
+    <script type="text/javascript" src="<?php echo PATH_JS; ?>jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="<?php echo PATH_JS; ?>bootstrap.min.js"></script>    
+    <!-- [ <script type="text/javascript" src="<?php echo PATH_JS; ?>WinPAC_aero.js"></script> ] -->
+	<!-- [ <script type="text/javascript" src="<?php echo PATH_JS; ?>WinPAC_main.js"></script> ] -->
+    <!-- [ <script type="text/javascript" src="<?php echo PATH_JS; ?>WinPAC_dialogos.js"></script> ] -->
+    <script type="text/javascript" src="<?php echo PATH_JS; ?>WinPAC_herramientas.js"></script>
+    <script type="text/javascript" src="<?php echo PATH_JS; ?>jquery.tooltip.min.js"></script>
+
+    <!-- [] -->
+    <style type="text/css">
+    <!--
+        html {
+            background-color: #FFF;
+        }	
+    -->
+    </style>
+
+</head>
+    <body>

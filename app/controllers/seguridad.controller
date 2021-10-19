@@ -1,0 +1,47 @@
+<?php
+/**
+ * @autor Rixio Danilo Iguarán Chourio.
+ * @cédula-profesional 12196442
+ * @correo-eletrónico atencion.clientes@obringolfo.com
+ * @denominacion OBRAS INFORMÁTICAS DEL GOLFO
+ * @empresa OBRINGOLFO S.A.S. DE C.V.
+ * @proyecto  WINDOWS PAQUETE ADMINISTRATIVO CONTABLE (WinPAC).
+ * @copyright 2021
+ */
+ 
+class SeguridadController extends ControladorBase{
+    public $conectar;
+    public $adapter;
+
+    public function __construct() {
+        parent::__construct();
+        $this->conectar = new Conectar();
+        $this->adapter  = $this->conectar->conexion();
+    }
+     
+    public function index(){
+        /** ************************************** **/
+        //Comprobamos que la sesion esté activa
+        if(!isset($_SESSION["logined"]) or !($_SESSION["logined"] == true)){
+            //Cargamos el login
+            $this->redirect("Login", "index");
+            exit();
+        }
+        /** ************************************** **/
+        
+        //Creamos el objeto usuario
+        //$usuario = new Usuario($this->adapter);
+         
+        //Conseguimos todos los usuarios
+        //$allusers = $usuario->getAll();
+        
+        //Cargamos la vista de login
+        $this->view("header_iface", null);
+        $this->view("seguridad_main", null);
+        $this->view("footer_iface", null);
+        auditar("[200][".$_SESSION["usuario"]."] Acceso correcto al módulo de seguridad");
+    }
+     
+ 
+}
+?>

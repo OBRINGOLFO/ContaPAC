@@ -1,0 +1,9 @@
+
+.ifacePage {
+    border: 1px solid #a5acb5;
+    margin: 5px;
+    padding: 10px;
+    height: 100%;
+    border-radius: 4px;
+    background: -moz-linear-gradient(#ffffff, #eaedf1);
+}

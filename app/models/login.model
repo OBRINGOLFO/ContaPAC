@@ -1,0 +1,17 @@
+<?php
+class LoginModel extends ModeloBase{
+    private $table;
+     
+    public function __construct($adapter){
+        $this->table="c_usuarios";
+        parent::__construct($this->table, $adapter);
+    }
+     
+    //Metodos de consulta
+    public function getUsuarioX(){
+        $query="SELECT * FROM c_usuarios WHERE email='victor@victor.com'";
+        $usuario=$this->ejecutarSql($query);
+        return $usuario;
+    }
+}
+?>

@@ -1,0 +1,19 @@
+<?php
+/**
+ * @autor Rixio Danilo Iguarán Chourio.
+ * @cédula-profesional 12196442
+ * @correo-eletrónico atencion.clientes@obringolfo.com
+ * @denominacion OBRAS INFORMÁTICAS DEL GOLFO
+ * @empresa OBRINGOLFO S.A.S. DE C.V.
+ * @proyecto  WINDOWS PAQUETE ADMINISTRATIVO CONTABLE (WinPAC).
+ * @copyright 2021
+ */
+
+    # [CARGANDO LA BARRA DE OPCIONES]
+    echo load_Menu("seguridad_main");
+?>
+
+
+<div class="ifacePage">
+    
+</div>

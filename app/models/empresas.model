@@ -1,0 +1,23 @@
+<?php
+class EmpresasModel extends ModeloBase{
+    private $table;
+     
+    public function __construct($adapter){
+        $this->table="c_empresas";
+        parent::__construct($this->table, $adapter);
+    }
+     
+    public function crearEMPRESA(){
+        $query = "CREATE DATABASE IUCR780921MJ6 CHARACTER SET UTF8;";
+        $Query_RESULT = "X"; //$this->ejecutarSql($query);
+        return $Query_RESULT;
+    }
+    
+    //Metodos de consulta
+    public function getUnaEmpresa(){
+        $query = "SELECT * FROM c_usuarios WHERE email='victor@victor.com'";
+        $xEmpresa = $this->ejecutarSql($query);
+        return $xEmpresa;
+    }
+}
+?>

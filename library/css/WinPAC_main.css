@@ -1,0 +1,474 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+.table-mm-content iframe {
+    overflow: hidden;
+    display: block;
+}
+
+/*-----------------------------------------------------------------------------
+IPAQ - Estilo de cuadros de texto
+-----------------------------------------------------------------------------*/
+/*https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css*/
+/* ** CAMPOS TIPO TEXTO ** */
+input[type="text"] {
+  width: 100%;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  margin: 8px 0;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+input[type="text"]:focus {
+  border-color: dodgerBlue;
+  box-shadow: 0 0 8px 0 dodgerBlue;
+}
+
+.inputWithIcon input[type="text"] {
+  padding-left: 40px;
+}
+
+.inputWithIcon {
+  position: relative;
+}
+
+.inputWithIcon i {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  padding: 12px 8px;
+  color: #aaa;
+  transition: 0.3s;
+}
+
+.inputWithIcon input[type="text"]:focus + i {
+  color: dodgerBlue;
+}
+
+.inputWithIcon.inputIconBg i {
+  background-color: #aaa;
+  color: #fff;
+  padding: 12px 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.inputWithIcon.inputIconBg input[type="text"]:focus + i {
+  color: #fff;
+  background-color: dodgerBlue;
+}
+
+/* ** CAMPOS TIPO PASSWORD ** */
+input[type="password"] {
+  width: 100%;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  margin: 8px 0;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+input[type="password"]:focus {
+  border-color: dodgerBlue;
+  box-shadow: 0 0 8px 0 dodgerBlue;
+}
+
+.inputWithIcon input[type="password"] {
+  padding-left: 40px;
+}
+
+.inputWithIcon input[type="password"]:focus + i {
+  color: dodgerBlue;
+}
+
+.inputWithIcon.inputIconBg input[type="password"]:focus + i {
+  color: #fff;
+  background-color: dodgerBlue;
+}
+
+/*-----------------------------------------------------------------------------
+IPAQ - Estilo del cargador de las páginas
+-----------------------------------------------------------------------------*/
+.xCargador {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.5);
+}
+
+.xCargador_Loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 48px;
+    height: 48px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 48px 48px;
+    background-image:url(/library/img/loaders/loader.48B.gif);    
+}
+
+/*-----------------------------------------------------------------------------
+IPAQ - Estilo del login
+-----------------------------------------------------------------------------*/
+/* Bordered form */
+form {
+  border: 3px solid #f1f1f1;
+}
+
+/* Add padding to containers */
+.login_container {
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-family: Roboto;
+  font-size: 12px;
+}
+
+.logo_login {
+    height: 100px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 300px 100px;
+    background-image:url(/library/img/logos/450x450.png);
+}
+
+/* The "Forgot password" text */
+span.psw {
+  float: right;
+  font-family: Roboto;
+  font-size: 12px;
+}
+
+span.psw a {
+    text-decoration: none;
+    color: #000;
+}
+
+/*-----------------------------------------------------------------------------
+INTERFACE - Estilos de los botones de acción
+-----------------------------------------------------------------------------*/
+/* Botón de color Verde */
+.cmdVERDE {
+	-moz-box-shadow:inset 0px 1px 0px 0px #aac98c;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #aac98c;
+	box-shadow:inset 0px 1px 0px 0px #aac98c;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #79c23a), color-stop(1, #488c11));
+	background:-moz-linear-gradient(top, #79c23a 5%, #488c11 100%);
+	background:-webkit-linear-gradient(top, #79c23a 5%, #488c11 100%);
+	background:-o-linear-gradient(top, #79c23a 5%, #488c11 100%);
+	background:-ms-linear-gradient(top, #79c23a 5%, #488c11 100%);
+	background:linear-gradient(to bottom, #79c23a 5%, #488c11 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79c23a', endColorstr='#488c11',GradientType=0);
+	background-color:#79c23a;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	border:1px solid #268a16;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family: 'Roboto';
+	font-size:12px;
+	padding:5px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #89ba59;
+    height: 40px;
+}
+
+.cmdVERDE i {
+    position: absolute;
+    margin-left: -23px;
+    margin-top: 2px;
+}
+
+.cmdVERDE:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #488c11), color-stop(1, #79c23a));
+	background:-moz-linear-gradient(top, #488c11 5%, #79c23a 100%);
+	background:-webkit-linear-gradient(top, #488c11 5%, #79c23a 100%);
+	background:-o-linear-gradient(top, #488c11 5%, #79c23a 100%);
+	background:-ms-linear-gradient(top, #488c11 5%, #79c23a 100%);
+	background:linear-gradient(to bottom, #488c11 5%, #79c23a 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#488c11', endColorstr='#79c23a',GradientType=0);
+	background-color:#488c11;
+    font-weight: bold;
+}
+
+.cmdVERDE:active {
+	position:relative;
+	top:1px;
+}
+
+/* Botón de color Rojo */
+.cmdROJO {
+	-moz-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
+	box-shadow:inset 0px 1px 0px 0px #f7c5c0;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #fc8d83), color-stop(1, #e4685d));
+	background:-moz-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
+	background:-webkit-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
+	background:-o-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
+	background:-ms-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
+	background:linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fc8d83', endColorstr='#e4685d',GradientType=0);
+	background-color:#fc8d83;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	border:1px solid #d83526;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family: 'Roboto';
+	font-size:12px;
+	padding:5px 24px;
+	text-decoration:none;
+    height: 40px;
+}
+
+.cmdROJO i {
+    position: absolute;
+    margin-left: -23px;
+    margin-top: 2px;
+}
+
+.cmdROJO:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e4685d), color-stop(1, #fc8d83));
+	background:-moz-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
+	background:-webkit-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
+	background:-o-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
+	background:-ms-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
+	background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4685d', endColorstr='#fc8d83',GradientType=0);
+	background-color:#e4685d;
+    font-weight: bold;
+}
+
+.cmdROJO:active {
+	position:relative;
+	top:1px;
+}
+
+/* Botón de color Azul */
+.cmdAZUL {
+    -moz-box-shadow:inset 0px 1px 0px 0px #bee2f9;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #bee2f9;
+	box-shadow:inset 0px 1px 0px 0px #bee2f9;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #63b8ee), color-stop(1, #468ccf));
+	background:-moz-linear-gradient(top, #63b8ee 5%, #468ccf 100%);
+	background:-webkit-linear-gradient(top, #63b8ee 5%, #468ccf 100%);
+	background:-o-linear-gradient(top, #63b8ee 5%, #468ccf 100%);
+	background:-ms-linear-gradient(top, #63b8ee 5%, #468ccf 100%);
+	background:linear-gradient(to bottom, #63b8ee 5%, #468ccf 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#63b8ee', endColorstr='#468ccf',GradientType=0);
+	background-color:#63b8ee;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	border:1px solid #3866a3;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family: 'Roboto';
+	font-size:12px;
+	padding:5px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #7cacde;
+    height: 40px;
+}
+
+.cmdAZUL i {
+    position: absolute;
+    margin-left: -23px;
+    margin-top: 2px;
+}
+
+.cmdAZUL:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #468ccf), color-stop(1, #63b8ee));
+	background:-moz-linear-gradient(top, #468ccf 5%, #63b8ee 100%);
+	background:-webkit-linear-gradient(top, #468ccf 5%, #63b8ee 100%);
+	background:-o-linear-gradient(top, #468ccf 5%, #63b8ee 100%);
+	background:-ms-linear-gradient(top, #468ccf 5%, #63b8ee 100%);
+	background:linear-gradient(to bottom, #468ccf 5%, #63b8ee 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#468ccf', endColorstr='#63b8ee',GradientType=0);
+	background-color:#468ccf;
+    font-weight: bold;
+}
+
+.cmdAZUL:active {
+	position:relative;
+	top:1px;
+}
+
+/* Botón de color Gris */
+.cmdGRIS {
+	-moz-box-shadow:inset 0px 1px 0px 0px #f0f0f0;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #f0f0f0;
+	box-shadow:inset 0px 1px 0px 0px #f0f0f0;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dedede), color-stop(1, #bfbfbf));
+	background:-moz-linear-gradient(top, #dedede 5%, #bfbfbf 100%);
+	background:-webkit-linear-gradient(top, #dedede 5%, #bfbfbf 100%);
+	background:-o-linear-gradient(top, #dedede 5%, #bfbfbf 100%);
+	background:-ms-linear-gradient(top, #dedede 5%, #bfbfbf 100%);
+	background:linear-gradient(to bottom, #dedede 5%, #bfbfbf 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dedede', endColorstr='#bfbfbf',GradientType=0);
+	background-color:#dedede;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	border:1px solid #bfbfbf;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family: 'Roboto';
+	font-size:12px;
+    color: black;
+	padding:5px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #f0f0f0;
+    height: 40px;
+}
+
+.cmdGRIS i {
+    position: absolute;
+    margin-left: -23px;
+    margin-top: 2px;
+}
+
+.cmdGRIS:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bfbfbf), color-stop(1, #dedede));
+	background:-moz-linear-gradient(top, #bfbfbf 5%, #dedede 100%);
+	background:-webkit-linear-gradient(top, #bfbfbf 5%, #dedede 100%);
+	background:-o-linear-gradient(top, #bfbfbf 5%, #dedede 100%);
+	background:-ms-linear-gradient(top, #bfbfbf 5%, #dedede 100%);
+	background:linear-gradient(to bottom, #bfbfbf 5%, #dedede 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bfbfbf', endColorstr='#dedede',GradientType=0);
+	background-color:#bfbfbf;
+    font-weight: bold;
+}
+
+.cmdGRIS:active {
+	position:relative;
+	top:1px;
+}
+
+
+/* Botón de color Gris_TOOLS */
+.cmdGRIS_TOOLS {
+	-moz-box-shadow:inset 0px 1px 0px 0px #f0f0f0;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #f0f0f0;
+	box-shadow:inset 0px 1px 0px 0px #f0f0f0;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dedede), color-stop(1, #bfbfbf));
+	background:-moz-linear-gradient(top, #dedede 5%, #bfbfbf 100%);
+	background:-webkit-linear-gradient(top, #dedede 5%, #bfbfbf 100%);
+	background:-o-linear-gradient(top, #dedede 5%, #bfbfbf 100%);
+	background:-ms-linear-gradient(top, #dedede 5%, #bfbfbf 100%);
+	background:linear-gradient(to bottom, #dedede 5%, #bfbfbf 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dedede', endColorstr='#bfbfbf',GradientType=0);
+	background-color:#dedede;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	border:1px solid #bfbfbf;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+    color: black;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #f0f0f0;
+    height: 40px !important;
+    width: 40px !important;    
+}
+
+.cmdGRIS_TOOLS img {
+    position: absolute;
+    margin-left: -19px;
+    margin-top: -19px;
+    width: 38px;
+    height: 38px;
+}
+
+.cmdGRIS_TOOLS:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #bfbfbf), color-stop(1, #dedede));
+	background:-moz-linear-gradient(top, #bfbfbf 5%, #dedede 100%);
+	background:-webkit-linear-gradient(top, #bfbfbf 5%, #dedede 100%);
+	background:-o-linear-gradient(top, #bfbfbf 5%, #dedede 100%);
+	background:-ms-linear-gradient(top, #bfbfbf 5%, #dedede 100%);
+	background:linear-gradient(to bottom, #bfbfbf 5%, #dedede 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bfbfbf', endColorstr='#dedede',GradientType=0);
+	background-color:#bfbfbf;
+    font-weight: bold;
+}
+
+.cmdGRIS_TOOLS:active {
+	position:relative;
+	top:1px;
+}
+
+
+
+
+
+.boxMODAL{
+  position: fixed;
+  z-index: 10000;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.5);
+}
+
+#boxMENSAJE_INFO{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 27px !important;
+}
+
+#boxMENSAJE{
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+    /*margin-top: -21px !important;*/
+}
+/*-----------------------------------------------------------------------------
+Iconos para mensajes de información 
+-----------------------------------------------------------------------------*/
+.msg_exito{
+    height: 32px;
+    width: 32px;
+    margin-top: 10px;
+    margin-left: 10px;
+    background: url('/library/img/icons/Smiley.png') no-repeat center center;
+    background-size: cover;
+    background-position: center;
+}
+
+.msg_alerta{
+    height: 32px;
+    width: 32px;
+    margin-top: 10px;
+    margin-left: 10px;
+    background: url('/library/img/icons/msg_alerta.png') no-repeat center center;
+    background-size: cover;
+    background-position: center;
+}
+
+.msg_error{
+    height: 32px;
+    width: 32px;
+    margin-top: 10px;
+    margin-left: 10px;
+    background: url('/library/img/icons/msg_error.png') no-repeat center center;
+    background-size: cover;
+    background-position: center;
+}

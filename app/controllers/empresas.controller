@@ -1,0 +1,79 @@
+<?php
+/**
+ * @autor Rixio Danilo Iguarán Chourio.
+ * @cédula-profesional 12196442
+ * @correo-eletrónico atencion.clientes@obringolfo.com
+ * @denominacion OBRAS INFORMÁTICAS DEL GOLFO
+ * @empresa OBRINGOLFO S.A.S. DE C.V.
+ * @proyecto  WINDOWS PAQUETE ADMINISTRATIVO CONTABLE (WinPAC).
+ * @copyright 2021
+ */
+ 
+class EmpresasController extends ControladorBase{
+    public $conectar;
+    public $adapter;
+
+    public function __construct() {
+        parent::__construct();
+        $this->conectar = new Conectar();
+        $this->adapter  = $this->conectar->conexion();
+    }
+     
+    public function index(){
+        /** ************************************** **/
+        //Comprobamos que la sesion esté activa
+        if(!isset($_SESSION["logined"]) or !($_SESSION["logined"] == true)){
+            //Cargamos el login
+            $this->redirect("Login", "index");
+            exit();
+        }
+        /** ************************************** **/
+        
+        //Cargamos la vista de login
+        $this->view("header", null);
+        $this->view("empresas_main", null);
+        $this->view("footer", null);
+        auditar("[200][".$_SESSION["usuario"]."] Acceso correcto a la selección de empresas");
+        
+    }
+     
+    public function crear(){
+        auditar("Intentando crear un nuevo Empresa en el sistema.");
+        if(isset($_POST["Empresa"]) && isset($_POST["passw"])){ //Validamos campos principales
+            //Creamos un Empresa
+            $Empresa = new Empresa($this->adapter);
+            $Empresa->setUid(getUUID());
+            $Empresa->setUid_persona(getUUID());
+            $Empresa->setEmpresa($_POST["Empresa"]);
+            $Empresa->setSecreto(password_hash($_POST["passw"], PASSWORD_DEFAULT));
+            $Empresa->setCreacion(date('Y-m-d H:i:s'));
+            $Empresa->setAcceso(null);
+            $Empresa->setIp(null);
+            $Empresa->setEstado('A');
+            $Empresa->setObservaciones(null);
+            $save = $Empresa->guardar();
+        }
+        auditar("Empresa creada correctamente: ".$this->uid);
+        $this->redirect("Empresas", "index");
+    }
+     
+    public function borrar(){
+        auditar("Intentando eliminar un Empresa en el sistema.");
+        if(isset($_GET["uid"])){
+            $uid=(int)$_GET["uid"];
+            $Empresa = new Empresa($this->adapter);
+            $Empresa->deleteById($uid);
+        }
+        auditar("Empresa eliminado correctamente: ".$uid);
+        $this->redirect();
+    }
+     
+     
+    public function hola(){
+        $Empresas = new EmpresasModel($this->adapter);
+        $usu = $Empresas->getUnaEmpresa();
+        var_dump($usu);
+    }
+ 
+}
+?>

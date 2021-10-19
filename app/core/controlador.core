@@ -1,0 +1,68 @@
+<?php
+/**
+ * @autor Rixio Danilo Iguarán Chourio.
+ * @cédula-profesional 12196442
+ * @correo-eletrónico atencion.clientes@obringolfo.com
+ * @denominacion OBRAS INFORMÁTICAS DEL GOLFO
+ * @empresa OBRINGOLFO S.A.S. DE C.V.
+ * @proyecto  WINDOWS PAQUETE ADMINISTRATIVO CONTABLE (WinPAC).
+ * @copyright 2021
+ */
+ 
+class ControladorBase{
+ 
+    public function __construct() {
+        require_once PATH_DATABASE.'conectar.data';
+        require_once PATH_CORE.'entidad.core';
+        require_once PATH_CORE.'modelo.core';
+
+        // Incluir todas las clases
+        foreach(glob(PATH_CLASS."*.class") as $file){
+            require_once $file;
+        }
+         
+        //Incluir todos los modelos
+        foreach(glob(PATH_MODEL."*.model") as $file){
+            require_once $file;
+        }
+        
+        //Incluir todos los controladores
+        //foreach(glob(PATH_CONTROLLER."*.controller") as $file){
+        //    require_once $file;
+        //}
+        
+        
+    }
+     
+    //Plugins y funcionalidades
+     
+    /**
+    * Este método lo que hace es recibir los datos del controlador en forma de array
+    * los recorre y crea una variable dinámica con el indice asociativo y le da el
+    * valor que contiene dicha posición del array, luego carga los helpers para las
+    * vistas y carga la vista que le llega como parámetro. En resumen un método para
+    * renderizar vistas.
+    * 
+    * NOTA: todos los archivos de vistas deben tener extensión .view
+    */
+    public function view($vista, $datos = null){
+        if($datos != null){
+            foreach ($datos as $id_assoc => $valor) {
+                ${$id_assoc} = $valor;
+            }
+        }
+        require_once PATH_HELPER.'vistas.helper';
+        $helper = new AyudaVistas();
+        require_once PATH_VIEW.$vista.'.view';
+    }
+     
+    public function redirect($controlador = CONTROLADOR_DEFECTO, $accion = ACCION_DEFECTO){
+        header("Location:index.php?controller=".$controlador."&action=".$accion);
+    }
+
+     
+    //Métodos para los controladores
+ 
+}
+
+?>

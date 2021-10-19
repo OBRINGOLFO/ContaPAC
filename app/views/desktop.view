@@ -1,0 +1,252 @@
+<?php
+/**
+ * @autor Rixio Danilo Iguarán Chourio.
+ * @cédula-profesional 12196442
+ * @correo-eletrónico atencion.clientes@obringolfo.com
+ * @denominacion OBRAS INFORMÁTICAS DEL GOLFO
+ * @empresa OBRINGOLFO S.A.S. DE C.V.
+ * @proyecto  WINDOWS PAQUETE ADMINISTRATIVO CONTABLE (WinPAC).
+ * @copyright 2021
+ */
+    
+?>
+
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+      
+      body {
+        background: url(<?php echo PATH_IMAGE."win7.jpg"; ?>);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        font-family: Roboto;
+        overflow: hidden;
+      }
+      
+      #link {
+        position: absolute;
+        bottom: 60px;
+        right: 30px;
+        color: white;
+        font-size: 11px;
+      }
+      
+      #link a:link, #link a:visited {
+        color: white;
+      }
+      .table-mm-content {
+        overflow: hidden;
+        background-color: darkslategrey;
+      }	
+    </style>
+
+
+<!-- [BEGIN][MENU INICIO DEL SISTEMA] -->
+<div id="Start-Menu" style="visibility: hidden;">
+    <!-- [BEGIN][MARCO DE IMAGEN DEL USUARIO] -->
+    <div id="UserFrame">
+        <div id="UserPicture"></div>
+        <label id="UserName"><?php echo $_SESSION['usuario']; ?></label>
+    </div>
+    <!-- [END] -->
+    
+    <!-- [BEGIN][OPCIONES DEL MENU] -->
+    <ul id="NavItems">
+        <li id="StartmenuItem_Ingresos" class="StartmenuItem"><img src="/library/img/icons/aero/001.png"><span>Módulo de ingresos.</span></li>
+        <li id="StartmenuItem_Gastos" class="StartmenuItem"><img src="/library/img/icons/aero/002.png"><span>Módulo de gastos.</span></li>
+        <li id="StartmenuItem_Expediente" class="StartmenuItem"><img src="/library/img/icons/aero/015.png"><span>Módulo de expediente electrónico.</span></li>
+        <li id="StartmenuItem_Seguridad" class="StartmenuItem"><img src="/library/img/icons/aero/039.png"><span>Módulo de control de seguridad.</span></li>
+        <li id="StartmenuItem_Reportes" class="StartmenuItem"><img src="/library/img/icons/aero/414.png"><span>Módulo de reportes.</span></li>
+        <li id="StartmenuItem_Nominas" class="StartmenuItem"><img src="/library/img/icons/aero/075.png"><span>Módulo de nóminas.</span></li>
+    </ul>
+    <!-- [END] -->
+    
+    <!-- [BEGIN][BOTONES DE HERRAMIENTAS] -->
+    <div id="TOOLS" style="position: absolute; left: 270px; top: 380px; width: 134px; text-align:center;">
+        <button
+            id="cmdCALCULADORA"
+            name="cmdCALCULADORA"
+            class="cmdGRIS_TOOLS"
+            type="button"
+            ><img src="/library/img/icons/aero/601.png"/>
+        </button>
+        <button
+            id="cmd2"
+            name="cmd2"
+            class="cmdGRIS_TOOLS"
+            type="button"
+            ><img src="/library/img/icons/aero/602.png"/>
+        </button>
+        <button
+            id="cmd3"
+            name="cmd3"
+            class="cmdGRIS_TOOLS"
+            type="button"
+            ><img src="/library/img/icons/aero/601.png"/>
+        </button>
+    </div>
+    <!-- [END] -->
+    
+    <!-- [BEGIN][BOTON PARA CERRAR SESIÓN] -->
+    <div id="POWEROFF" style="position: absolute; left: 270px; top: 475px; width: 134px;">
+        <button
+            id="cmdINICIO_APAGAR"
+            name="cmdINICIO_APAGAR"
+            class="cmdROJO"
+            type="button"
+            style="width: 134px !important; height: 30px; color: white;"
+            >
+            <i class="fas fa-sign-out-alt"></i>Cerrar sesión
+        </button>
+    </div>
+    <!-- [END] -->
+
+</div>
+<!-- [END] -->
+
+<!-- [BEGIN][ICONOS DEL ESCRITORIO] -->
+<div id="DesktopIcons">
+    <ul style="display: none">
+        <li><a href="<?php echo PATH_AYUDA.'seguridad/login.html'; ?>"><img src="<?php echo PATH_IMAGE; ?>icons/help.png" border="0">Ayuda</a>
+        <li><a href="<?php echo $helper->url("login", "check"); ?>"><img src="<?php echo PATH_IMAGE; ?>icons/aero/039.png" border="0">Configuración</a>
+    </ul>
+</div>
+<!-- [END] -->
+
+<!-- [BEGIN][INFORMACIÓN EN PANTALLA] -->
+<div id="DesktopInfo" class="DesktopInfo">
+    <label id="LastIp" class="LastAccess">Ultima IP: <?php echo $_SESSION['lastip']; ?></label>
+    <label id="LastAccess" class="LastAccess">Ultimo acceso: <?php echo $_SESSION['lastaccess']; ?></label>    
+</div>
+<!-- [END] -->
+
+
+
+<script type="text/javascript">
+
+    var ShowTaskbar = true;
+    $(document).ready(function() {
+        var desktop = $("body #DesktopIcons");
+        var desktop_icons = $("a", desktop);
+        $("ul", desktop).css("display", "none");
+        desktop_icons.each(function(index) {
+            if ($(this).attr('href') !== undefined)
+                $(this).AeroWindowLink();
+        });
+        desktop_icons.remove();
+
+        $('#Start-Menu #NavItems li').hover(function() {
+            $(this).addClass('hover');
+        }, function() {
+            $(this).removeClass('hover');
+        });
+        
+        $('#StartmenuItem_RestoreMinWindowsDelay').click(function() {
+            resallDelay();
+        });
+        
+        $('#StartmenuItem_RestoreMinWindows').click(function() {
+            resall();
+        });
+
+        $('#StartmenuItem_SortOverlapping').click(function() {
+            SortOverlapping();
+        });
+
+        $('#StartmenuItem_SortGrid').click(function() {
+            SortGrid();
+        });
+
+        $('#StartmenuItem_MinimizeOpenWindowsDelay').click(function() {
+            minallDelay();
+        });
+
+        $('#StartmenuItem_MinimizeOpenWindows').click(function() {
+            minall();
+        });
+
+        $('#StartmenuItem_CreateNewWindow').click(function(e) {
+            GenerateNewWindowLightbox(null, null, false, e);
+        });
+
+        $('#StartmenuItem_CreateNewWindowAndIcon').click(function(e) {
+            GenerateNewWindowLightbox(null, null, true, e);
+        });
+    
+        /** ***************************************************************************** 
+        CARGANDO LAS ACCIONES DE LOS ELEMENTOS DEL MENÚ INICIO
+        ***************************************************************************** **/
+        $('#StartmenuItem_Ingresos').click(function(e) {
+            GenerateNewWindowLightbox("/index.php?controller=Ingresos&acction=index", "Módulo de ingresos.", false, e);
+        });
+
+        $('#StartmenuItem_Gastos').click(function(e) {
+            GenerateNewWindowLightbox("/index.php?controller=Gastos&acction=index", "Módulo de gastos.", false, e);
+        });
+
+        $('#StartmenuItem_Expediente').click(function(e) {
+            GenerateNewWindowLightbox("/index.php?controller=Expedientes&acction=index", "Módulo de expedientes electrónicos.", false, e);
+        });
+
+        $('#StartmenuItem_Seguridad').click(function(e) {
+            GenerateNewWindowLightbox("/index.php?controller=Seguridad&acction=index", "Módulo de seguridad.", false, e);
+        });
+        
+        $('#StartmenuItem_Reportes').click(function(e) {
+            GenerateNewWindowLightbox("/index.php?controller=Reportes&acction=index", "Módulo de reportes.", false, e);
+        });
+        
+        $('#StartmenuItem_Nominas').click(function(e) {
+            GenerateNewWindowLightbox("/index.php?controller=Nominas&acction=index", "Módulo de nominas.", false, e);
+        });
+        /** ************************************************************************* **/
+        $('#SearchBox').submit(function(e) {
+            GenerateNewWindowLightbox('http://www.google.com/?q=' + this.q.value, 'Google Web Search', false, e);
+            $('#Start-Menu').css({
+                visibility: 'hidden'
+            });
+            $('#Start-Menu-Button').removeClass('active');
+                $(this.q).attr('value', 'Web Search');
+                return (false);
+        });
+		
+        
+        
+    });
+
+    $('#cmdINICIO_APAGAR').click(function(e) {
+        MyCOMFIRM = 'dialog_SALIR';
+        ConfirmAeroWindow(MyCOMFIRM, '¿Desea cerrar sesión?<br>Se cerrarán todos los datos y ventanas');
+        $("#"+MyCOMFIRM).find('#confirmSI').click(function(e) {
+            $("#confirmMODAL").remove();
+            $("#Taskbar"+MyCOMFIRM).remove();
+            window.location = "/index.php?controller=Login&action=logout"
+        });
+        $("#"+MyCOMFIRM).find('#confirmNO').click(function(e) {
+            $("#confirmMODAL").remove();
+            $("#Taskbar"+MyCOMFIRM).remove();
+        });
+    });
+
+
+    $('#cmdCALCULADORA').click(function(e) {
+        MyMSG = 'MyINFO2';
+        InfoAeroWindow(MyMSG, 'Mensaje de informción L1<br>Mensaje de información de la línea dos');
+        $("#"+MyMSG).find('#infoACEPTAR').click(function(e) {
+            $("#infomMODAL").remove();
+            $("#Taskbar"+MyMSG).remove();
+        });
+        
+    });
+
+
+
+</script>   
+
+<?php
+
+?>

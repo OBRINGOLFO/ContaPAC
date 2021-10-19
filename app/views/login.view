@@ -1,0 +1,170 @@
+<?php
+/**
+ * @autor Rixio Danilo Iguarán Chourio.
+ * @cédula-profesional 12196442
+ * @correo-eletrónico atencion.clientes@obringolfo.com
+ * @denominacion OBRAS INFORMÁTICAS DEL GOLFO
+ * @empresa OBRINGOLFO S.A.S. DE C.V.
+ * @proyecto  WINDOWS PAQUETE ADMINISTRATIVO CONTABLE (WinPAC).
+ * @copyright 2021
+ */
+    
+?>
+
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+      }
+      
+      body {
+        background: url(<?php echo PATH_IMAGE."win7.jpg"; ?>);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        font-family: Roboto;
+        overflow: hidden;
+      }
+      
+      #link {
+        position: absolute;
+        bottom: 60px;
+        right: 30px;
+        color: white;
+        font-size: 11px;
+      }
+      
+      #link a:link, #link a:visited {
+        color: white;
+      }
+      
+    </style>
+
+     <div id="DesktopIcons">
+      <ul style="display: none">
+        <li><a href="<?php echo PATH_AYUDA.'seguridad/login.html'; ?>"><img src="<?php echo PATH_IMAGE; ?>icons/help.png" border="0">Ayuda</a>
+      </ul>  
+    </div>
+
+
+<div id="main_login">
+    <form name="FrmLOGIN" id="FrmLOGIN" method="post" autocomplete="off" action="<?php echo $helper->url("login", "check"); ?>">
+        <div class="login_container">
+            <div class="logo_login"></div>
+        </div>
+
+        <div class="login_container">
+            <div class="inputWithIcon">
+                <input
+                    type="text"
+                    placeholder="Escriba su nombre de usuario"
+                    id="usuario"
+                    name="usuario"
+                    pattern="<?php echo getREGEX("ESPECIALES","regex.usuario").'{3,20}$' ?>"
+                    autocomplete="off" 
+                    required
+                >
+                <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
+            </div>
+            <div class="inputWithIcon">
+                <input
+                    type="password"
+                    placeholder="Escriba su frase secreta"
+                    id="passw"
+                    name="passw"
+                    pattern="<?php echo getREGEX("ESPECIALES","regex.contraseña").'{6,254}$' ?>"
+                    autocomplete="off" 
+                    required
+                >
+                <i class="fa fa-unlock-alt fa-lg fa-fw" aria-hidden="true"></i>
+            </div>
+        </div>
+
+        <div class="login_container">
+            <button
+                id="cmdLOGIN_ACEPTAR"
+                name="cmdLOGIN_ACEPTAR"
+                class="cmdAZUL"
+                type="submit"
+                style="width: 49%;"
+                ><i class="fas fa-sign-in-alt"></i>Acceder
+            </button>
+            <button
+                id="cmdLOGIN_CANCEL"
+                name="cmdLOGIN_CANCEL"
+                class="cmdROJO"
+                type="button"
+                style="width: 49%;"
+                ><i class="fas fa-power-off"></i>Cancelar
+            </button>
+        </div>
+        
+        <div class="login_container">
+            <input type="checkbox" checked="checked" name="remember"> Recuerdame.
+            <span class="psw">Recuperar<a href="#">contraseña?</a></span>
+        </div>    
+    </form>
+</div>
+
+<?php
+	if(isset($idError)){
+       InfoAeroWindow('loginINFO', "[".$idError."] Problema detectado...<br>".$DialogMSG);
+	}
+?>
+
+<script type="text/javascript">
+    var ShowTaskbar = false;
+
+    $(document).ready(function() {
+        var desktop = $("body #DesktopIcons");
+        var desktop_icons = $("a", desktop);
+        $("ul", desktop).css("display", "none");
+        desktop_icons.each(function(index) {
+            if ($(this).attr('href') !== undefined)
+                $(this).AeroWindowLink();
+        });
+        desktop_icons.remove();
+    });
+
+    //Generando la ventana de dialogo para logín
+ 	$('#main_login').AeroWindow({
+        WindowTitle: 'WinPAC &#174; - Seguridad',
+		WindowDesktopIconFile: '<?php echo PATH_IMAGE; ?>icons/Password.png',
+		WindowStatus: 'window',
+		WindowPositionTop: 'center',
+		WindowPositionLeft: 'center',
+		WindowOuterWidth: 350,
+		WindowOuterHeight: 420,
+		WindowDesktopIcon: false,
+		WindowResizable: false,
+		WindowMaximize: false,
+		WindowMinimize: false,
+		WindowClosable: false,
+		LoadiFrameContentLater: false,
+		WindowDraggable: false
+ 	  
+ 	});
+    
+
+    $('#cmdLOGIN_CANCEL').click(function() {
+        MyCOMFIRM = 'dialog_SALIR';
+        ConfirmAeroWindow(MyCOMFIRM, '¿Desea cancelar el acceso al sistema?<br>Se cerrará la interface de acceso');
+        $("#"+MyCOMFIRM).find('#confirmSI').click(function(e) {
+            $("#confirmMODAL").remove();
+            $("#Taskbar"+MyCOMFIRM).remove();
+            $("#main_login").remove();
+        });
+        $("#"+MyCOMFIRM).find('#confirmNO').click(function(e) {
+            $("#confirmMODAL").remove();
+            $("#Taskbar"+MyCOMFIRM).remove();
+        });
+    });	
+
+
+
+</script>   
+
+<?php
+
+?>

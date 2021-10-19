@@ -1,0 +1,225 @@
+<?php
+/**
+ * @autor Rixio Danilo Iguarán Chourio.
+ * @cédula-profesional 12196442
+ * @correo-eletrónico atencion.clientes@obringolfo.com
+ * @denominacion OBRAS INFORMÁTICAS DEL GOLFO
+ * @empresa OBRINGOLFO S.A.S. DE C.V.
+ * @proyecto  WINDOWS PAQUETE ADMINISTRATIVO CONTABLE (WinPAC).
+ * @copyright 2021
+ */
+ 
+    require_once PATH_CONFIG."/session.conf";
+    //FUNCIONES PARA EL CONTROLADOR FRONTAL
+
+    /** *************************************************************************************************************************** **/ 
+    function cargarControlador($controller){
+        $controlador = ucwords($controller).'Controller';
+        $strFileController = PATH_CONTROLLER.strtolower($controller).'.controller';
+        if(!is_file($strFileController)){
+            $strFileController = PATH_CONTROLLER.CONTROLADOR_DEFECTO.'.controller';
+        }
+        require_once $strFileController;
+        $controllerObj = new $controlador();
+        return $controllerObj;
+    }
+    /** *************************************************************************************************************************** **/     
+    function cargarAccion($controllerObj, $action){
+        $accion = $action;
+        $controllerObj->$accion();
+    }
+    /** *************************************************************************************************************************** **/     
+    function lanzarAccion($controllerObj){
+        if(isset($_GET["action"]) && method_exists($controllerObj, $_GET["action"])){
+            cargarAccion($controllerObj, $_GET["action"]);
+        }else{
+            cargarAccion($controllerObj, ACCION_DEFECTO);
+        }
+    }
+    /** *************************************************************************************************************************** **/
+    function getUUID(){
+        $data = random_bytes(16);
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40); 
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80); 
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+    /** *************************************************************************************************************************** **/
+    function auditar($texto){
+        try {
+            $strLOG = '';
+            $filename = "auditoria [".date('d.m.Y')."].log";
+            $dataFile = fopen(PATH_LOG.$filename, "a+");
+            $dia = date("d");
+            $mes = date("m");
+            $anno = date("Y");
+            $hora = date("H");
+            $minuto = date("i");
+            $segundo = date("s");
+            $tiempo = "\n".$dia."/".$mes."/".$anno." ".$hora.":".$minuto.":".$segundo;
+            if($dataFile){
+                $strLOG =   str_pad($tiempo, 19, " ", STR_PAD_BOTH)." | ".
+                            str_pad(get_cliente_ip(), 15, " ", STR_PAD_BOTH)." | ".
+                            str_pad(basename($_SERVER['PHP_SELF'], ".php"), 17, " ", STR_PAD_RIGHT)." | ".
+                            utf8_decode($texto);
+                        
+                fwrite($dataFile, $strLOG);
+                fclose($dataFile);
+            }
+        } catch (Exception $e) {
+            echo 'Excepción capturada: ',  $e->getMessage(), "\n";
+        }
+    }
+    /** *************************************************************************************************************************** **/
+    function get_cliente_ip() {
+        $ipaddress = '';
+        if (getenv('HTTP_CLIENT_IP'))
+            $ipaddress = getenv('HTTP_CLIENT_IP');
+        else if(getenv('HTTP_X_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+        else if(getenv('HTTP_X_FORWARDED'))
+            $ipaddress = getenv('HTTP_X_FORWARDED');
+        else if(getenv('HTTP_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_FORWARDED_FOR');
+        else if(getenv('HTTP_FORWARDED'))
+           $ipaddress = getenv('HTTP_FORWARDED');
+        else if(getenv('REMOTE_ADDR'))
+            $ipaddress = getenv('REMOTE_ADDR');
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
+    }
+    /** ***************************************************************************************************************************** **/
+    /**
+     * @name getREGEX
+     * 
+     * @param $xSeccion [String]
+     * @param $xExpresion [String]
+     * @description
+     *      Función para el uso del diccionario de expresiones regulares
+     *      Se definen los parametros de entrada y devolverá el valor de la expresión regular
+     * **/
+    function getREGEX($xSeccion, $xExpresion){
+        $xArrREGEX = parse_ini_file(PATH_CONFIG."patterns.ini", true); //Leo el archivo ini
+        if(array_key_exists($xSeccion, $xArrREGEX)){ //Verifico la existencia del grupo
+            if(array_key_exists($xExpresion, $xArrREGEX[$xSeccion])){ //Verifico la existencia del pattern
+                echo $xArrREGEX[$xSeccion][$xExpresion]; //Escribo pattern
+            }else{
+                echo "pattern fallida"; //Anuncio falla de pattern
+            }
+        }else{
+            echo "grupo pattern fallido"; //Anuncio falla de grupo
+        }
+    }
+    /** *************************************************************************************************************************** **/
+    function  InfoAeroWindow($varID, $varMENSAJE){
+        echo "<script type='text/javascript'>InfoAeroWindow('$varID', '$varMENSAJE');</script>";
+    }
+    /** *************************************************************************************************************************** **/
+    function  ConfirmAeroWindow($varID, $varMENSAJE){
+        echo "<script type='text/javascript'>ConfirmAeroWindow($varID, $varMENSAJE);</script>";
+    }
+    /** *************************************************************************************************************************** **/
+    function load_Menu($mnu_load){
+        $mnuFILE = $_SERVER['DOCUMENT_ROOT'].PATH_AJAX.strtolower($mnu_load).".mnu";
+        if(file_exists($mnuFILE)){
+            ob_start(); //Activo la captura de buffer de salida
+            require($mnuFILE); //requiero el archivo de MENU para que se ejecute
+            $mnuCONTENT = ob_get_clean(); //retorno la salida del archivo ejecutado            
+        }else{
+            $mnuCONTENT = "[404] Menú no encontrado";
+        }
+        return $mnuCONTENT;
+    }
+    /** *************************************************************************************************************************** **/
+    /**
+     * FUNCIÓN DE COMUNICACIONES CON LA BASE DE DATOS
+     * 
+     * [cmdSQL] es la instrucción MDL que se envía a la base (con comodines de valor)
+     * 
+     * [tiposREF] pudiera contener una cadena con los siguentes valores
+     *      i	el valor en el arreglo es de tipo entero
+     *      d	el valor en el arreglo es de tipo double
+     *      s	el valor en el arreglo es de tipo string
+     *      b	el valor en el arreglo es un blob y se envía en paquetes
+     * 
+     * [Parametros] es un arreglo que contiene los datos a enviar a la DB 
+    **/
+    function SQL_Command($MyCONN, $cmdSQL, $tiposREF = false, $Parametros = false){
+        //$MyCONN=Conectarse(); //Estableciendo la conexión.
+        $cmdSQL = mysqli_real_escape_string($MyCONN, $cmdSQL); //escapando los caracteres especiales (SQL inyection).
+        if($xPreparar = mysqli_prepare($MyCONN, $cmdSQL)){ //Iniciando la preparación de la consulta solicitada.
+            if(count($Parametros) == count($Parametros, 1)){ 
+                $Parametros = array($Parametros); 
+                $MySQL_MULTI = false; 
+            } else { 
+                $MySQL_MULTI = true; 
+            }  
+            //Analizando los parametros de la preparación (SQL inyection).
+            if($tiposREF){ 
+                $ParametrosBND = array();   //Arreglo de parametros
+                $ParametrosREF = array();   //Arreglo de referencia
+                $ParametrosBND = array_pad($ParametrosBND,(count($Parametros,1)-count($Parametros))/count($Parametros),""); //inserto en el arreglo       
+                foreach($ParametrosBND as $xCampo => $xValor){ 
+                    $ParametrosREF[$xCampo] = &$ParametrosBND[$xCampo];  //actualizo el arreglo de referencia
+                } 
+                array_unshift($ParametrosREF, $tiposREF); 
+                $ParametrosMTH = new ReflectionMethod('mysqli_stmt', 'bind_param'); 
+                $ParametrosMTH -> invokeArgs($xPreparar,$ParametrosREF); 
+            } 
+            
+            $xResultado = array(); //Declaramos el areglo vacio de posibles resultados.
+            foreach($Parametros as $qCampo => $qValor){ 
+              foreach($ParametrosBND as $pCampo => $xValor){ 
+                $ParametrosBND[$pCampo] = $qValor[$pCampo]; 
+              } 
+              $xResultadoTMP = array(); 
+              if(mysqli_stmt_execute($xPreparar)){ 
+                $xResultadoMD = mysqli_stmt_result_metadata($xPreparar); 
+                if($xResultadoMD){                                                                               
+                  $xArregloPRE = array();   
+                  $xArregloREF = array(); 
+                  while ($CampoW = mysqli_fetch_field($xResultadoMD)) { 
+                    $xArregloREF[] = &$xArregloPRE[$CampoW->name]; 
+                  }                                
+                  mysqli_free_result($xResultadoMD); 
+                  $bResultadoMD = new ReflectionMethod('mysqli_stmt', 'bind_result'); 
+                  $bResultadoMD->invokeArgs($xPreparar, $xArregloREF); 
+                  while(mysqli_stmt_fetch($xPreparar)){ 
+                    $row = array(); 
+                    foreach($xArregloPRE as $xCampo => $xValor){ 
+                      $row[$xCampo] = $xValor;           
+                    } 
+                    $xResultadoTMP[] = $row; 
+                  } 
+                  mysqli_stmt_free_result($xPreparar); 
+                } else { 
+                  $xResultadoTMP[] = mysqli_stmt_affected_rows($xPreparar); 
+                } 
+              } else { 
+                $xResultadoTMP[] = FALSE; 
+              } 
+              $xResultado[$qCampo] = $xResultadoTMP; 
+            } 
+            mysqli_stmt_close($xPreparar);   
+          } else { //No se pudo preparar la consulta solicitada (Abotar proceso)
+            $xResultado = FALSE; //Abortando y estableciendo resultado a falso.
+            throw new Exception(mysqli_error($MyCONN)."\n".$cmdSQL); //Generando excepción 
+          } 
+          
+          if($MySQL_MULTI){ 
+            return $xResultado; //Sí es multiconsulta y debemos de retornar todos los elementos del arreglo.
+          } else { 
+            return $xResultado[0]; //No es multiconsulta y solo retornamos 1 único elemento del arreglo.
+          } 
+    }
+    /** *************************************************************************************************************************** **/
+    function desconectar_datos(){
+            mysqli_close();
+    }
+    /** *************************************************************************************************************************** **/
+    /** *************************************************************************************************************************** **/
+    /** *************************************************************************************************************************** **/
+    /** *************************************************************************************************************************** **/
+    /** *************************************************************************************************************************** **/
+    /** *************************************************************************************************************************** **/                    
+?>

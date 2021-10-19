@@ -1,0 +1,92 @@
+<?php
+/**
+ * @autor Rixio Danilo Iguarán Chourio.
+ * @cédula-profesional 12196442
+ * @correo-eletrónico atencion.clientes@obringolfo.com
+ * @denominacion OBRAS INFORMÁTICAS DEL GOLFO
+ * @empresa OBRINGOLFO S.A.S. DE C.V.
+ * @proyecto  WINDOWS PAQUETE ADMINISTRATIVO CONTABLE (WinPAC).
+ * @copyright 2021
+ */
+ 
+class LoginController extends ControladorBase{
+    public $conectar;
+    public $adapter;
+
+    public function __construct() {
+        parent::__construct();
+        $this->conectar = new Conectar();
+        $this->adapter  = $this->conectar->conexion();
+    }
+     
+    public function index(){
+        //Cargamos la vista de login
+        $this->view("header", null);
+        $this->view("login", null);
+        $this->view("footer", null);
+        auditar("[200] Acceso correcto al módulo de seguridad");
+    }
+     
+    public function check(){
+        if(isset($_POST["usuario"]) && isset($_POST["passw"])){ //Validamos campos principales
+            //Creamos el objeto << usuario >>
+            $usuario = new Usuario($this->adapter);
+            $MyUser = $usuario->getBy('usuario', $_POST["usuario"]);
+            if(!empty($MyUser)){ //tenemos un usuario valido
+                if(password_verify($_POST["passw"], $MyUser[0]->secreto)){ //Clave correcta
+                    if(strtoupper($MyUser[0]->estado) == "A"){ //Usuario activo
+                        //Cargamos las variables de sesion del usuario
+                        $_SESSION["logined"]    = true;
+                        $_SESSION["usuario"]    = ucwords($MyUser[0]->usuario);
+                        $_SESSION["lastaccess"] = $MyUser[0]->acceso;
+                        $_SESSION["lastip"]     = $MyUser[0]->ip;
+                        
+                        $update_user = new Usuario($this->adapter);
+                        $update_user->setAcceso(date('Y-m-d H:i:s'));
+                        $update_user->setIp(get_cliente_ip());
+                        $save = $update_user->actualizar($MyUser[0]->uid);
+                        
+                        
+                        auditar("[200] Inicio de sesión correcto del usuario ".$_SESSION["usuario"]);
+                        //Cargamos la vista del escritorio
+                        $this->redirect("Desktop", "index");
+                    }else{ //Usuario inactivo
+                        auditar("[403] Intento de acceso del usuario ".$_POST["usuario"]." con limitaciones de acceso.");
+                        $this->view("header", null);
+                        $this->view("login", array("idError" => 403, "DialogMSG" => "Éste usuario tiene limitaciones de acceso al sistema."));
+                        $this->view("footer", null);
+                    }
+                }else{ //Clave incorrecta
+                    auditar("[403] Intento de acceso del usuario ".$_POST["usuario"]." con credenciales incorrectas.");
+                    $this->view("header", null);
+                    $this->view("login", array("idError" => 403, "DialogMSG" => "Nombre de usuario o contraseña incorrecta."));
+                    $this->view("footer", null);
+                }
+            }else{ //usuario no existe
+                    auditar("[404] No se reconoce el acceso para el usuario ".$_POST["usuario"]);
+                    $this->view("header", null);
+                    $this->view("login", array("idError" => 404, "DialogMSG" => "No existe el usuario dentro de los registros."));
+                    $this->view("footer", null);
+            }
+        }
+    }
+    
+    public function logout(){
+    	//Destruyendo la sesión del usuario.
+        session_destroy();
+        //Direccionando a la pagina de inicio
+        auditar("[200] Se ha cerrado la sesión de usuario correctamente");
+        header('Location: /index.php');
+    }
+    
+    public function error(){
+        auditar("Intentando crear un nuevo usuario en el sistema.");
+        if(isset($_POST["usuario"]) && isset($_POST["passw"])){ //Validamos campos principales
+            unset($_POST["usuario"]);
+            unset($_POST["passw"]);
+        }
+        //$this->redirect("Login", "index");
+    }
+ 
+}
+?>

@@ -1,0 +1,84 @@
+<?php
+/**
+ * @autor Rixio Danilo Iguarán Chourio.
+ * @cédula-profesional 12196442
+ * @correo-eletrónico atencion.clientes@obringolfo.com
+ * @denominacion OBRAS INFORMÁTICAS DEL GOLFO
+ * @empresa OBRINGOLFO S.A.S. DE C.V.
+ * @proyecto  WINDOWS PAQUETE ADMINISTRATIVO CONTABLE (WinPAC).
+ * @copyright 2021
+ */
+ 
+class UsuariosController extends ControladorBase{
+    public $conectar;
+    public $adapter;
+
+    public function __construct() {
+        parent::__construct();
+        $this->conectar = new Conectar();
+        $this->adapter  = $this->conectar->conexion();
+    }
+     
+    public function index(){
+        /** ************************************** **/
+        //Comprobamos que la sesion esté activa
+        if(!isset($_SESSION["logined"]) or !($_SESSION["logined"] == true)){
+            //Cargamos el login
+            $this->redirect("Login", "index");
+            exit();
+        }
+        /** ************************************** **/
+         
+        //Creamos el objeto usuario
+        $usuario = new Usuario($this->adapter);
+         
+        //Conseguimos todos los usuarios
+        $allusers = $usuario->getAll();
+        
+        //Cargamos la vista index y le pasamos valores
+        $this->view("index",array(
+            "allusers" => $allusers,
+            "Hola"     => "Soy Víctor Robles"
+        ));
+    }
+     
+    public function crear(){
+        auditar("Intentando crear un nuevo usuario en el sistema.");
+        if(isset($_POST["usuario"]) && isset($_POST["passw"])){ //Validamos campos principales
+            //Creamos un usuario
+            $usuario = new Usuario($this->adapter);
+            $usuario->setUid(getUUID());
+            $usuario->setUid_persona(getUUID());
+            $usuario->setUsuario($_POST["usuario"]);
+            $usuario->setSecreto(password_hash($_POST["passw"], PASSWORD_DEFAULT));
+            $usuario->setCreacion(date('Y-m-d H:i:s'));
+            $usuario->setAcceso(null);
+            $usuario->setIp(null);
+            $usuario->setEstado('A');
+            $usuario->setObservaciones(null);
+            $save = $usuario->guardar();
+        }
+        auditar("Usuario creado correctamente: ".$this->uid);
+        $this->redirect("Usuarios", "index");
+    }
+     
+    public function borrar(){
+        auditar("Intentando eliminar un usuario en el sistema.");
+        if(isset($_GET["uid"])){
+            $uid=(int)$_GET["uid"];
+            $usuario = new Usuario($this->adapter);
+            $usuario->deleteById($uid);
+        }
+        auditar("Usuario eliminado correctamente: ".$uid);
+        $this->redirect();
+    }
+     
+     
+    public function hola(){
+        $usuarios=new UsuariosModel($this->adapter);
+        $usu=$usuarios->getUnUsuario();
+        var_dump($usu);
+    }
+ 
+}
+?>
